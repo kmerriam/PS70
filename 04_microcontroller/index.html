@@ -25,7 +25,60 @@
 
 <h3>Week 4: Microcontroller Programming</h3>
 
-<h4>[Do Something with an arduino]</h4>
+<h4>[Do Something with an arduino]
+  For this prokect, I decided to improve my project from last week. The ballerina was spinning too fast for my liking so I wanted to slow it down and cover up the motor to make it prettier. 
+  I used copper wire, hot glue, wood to make a base, and wood to make the box to hide the motor. 
+  Unfortunately, I forgot to connect the ballerina to the motor through the wood before gluing it causing me to have to use a lot of tape to put my wooden box together. 
+  I also messed up some of the measurements, however this turned out to be good because it helped keep the button out of the box which is needed to operate the ballerina. 
+
+
+  my code on arduino:
+  const int motorPinA = 9; // pin connected to B-1A 
+const int motorPinB = 10; // pin conneected B-1B
+const int buttonPin = 2; //pin connected to button
+int buttonState = 0; // variable to store the button state
+int lastButtonState = HIGH; // previous state of the button
+int motorState = 0; // variable to track state of motor being on/off
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(motorPinA, OUTPUT); // Set the motor control pins as outputs
+  pinMode (motorPinB, OUTPUT);
+  pinMode (buttonPin, INPUT_PULLUP); // use internal pullup resistor 
+  Serial.begin(9600); // start serial communication
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // read the current state of the button
+  int currentButtonState = digitalRead(buttonPin);
+  Serial.println(currentButtonState); // print the button state so I can debug (thanks Bobby)
+
+// detect when the button is pressed (go from the HIGH to LOW)
+if (currentButtonState == LOW && lastButtonState == HIGH) { //button pressed making pin go LOW
+  motorState = !motorState; // go b/w the motor states 
+  delay(200); // debounce delay in order to make the button work
+}
+// if motorState is 1, make the motor go
+if (motorState == 1) {
+  analogWrite(motorPinA, 80);
+  digitalWrite(motorPinB, LOW);
+}
+// if 0, stop the motor
+else {
+  digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinB, LOW); 
+}
+// now save the current button state as the lastButtonState for the next loop
+lastButtonState = currentButtonState;
+}
+end code!
+
+
+<video width="640" height="480" controls>
+  <source src="balbox.mp4" type="video/mp4">
+</h4>
 
 
 
